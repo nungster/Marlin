@@ -753,6 +753,9 @@
     #if MB(AZTEEG_X3)
       #define STAT_LED_RED       6
       #define STAT_LED_BLUE     11
+    #else
+      #define STAT_LED_RED       32
+      #define STAT_LED_BLUE      35
     #endif
   #endif
 
@@ -787,6 +790,19 @@
         #define BTN_ENC -1
         #define LCD_SDSS 53
         #define SDCARDDETECT 49
+      #elif defined(VIKI2) || defined(miniVIKI)
+        #define BEEPER 33
+        // Pins for DOGM SPI LCD Support
+        #define DOGLCD_A0  44
+        #define DOGLCD_CS  45
+        #define LCD_SCREEN_ROT_180
+        
+        //The encoder and click button
+        #define BTN_EN1 22
+        #define BTN_EN2 7
+        #define BTN_ENC 39  //the click switch
+     
+        #define SDCARDDETECT -1
       #else
         //arduino pin which triggers an piezzo beeper
         #define BEEPER 33  // Beeper on AUX-4
@@ -1791,6 +1807,26 @@
 #define KILL_PIN           -1
 #define ALARM_PIN          -1
 
+#if defined(VIKI2) || defined(miniVIKI)
+        #define BEEPER 32 //FastIO
+        // Pins for DOGM SPI LCD Support
+        #define DOGLCD_A0  42 //Non-FastIO
+        #define DOGLCD_CS  43 //Non-FastIO
+        #define LCD_SCREEN_ROT_180
+        
+        //The encoder and click button (FastIO Pins)
+        #define BTN_EN1 26 
+        #define BTN_EN2 27
+        #define BTN_ENC 47  //the click switch
+     
+        #define SDCARDDETECT -1 // FastIO  
+#endif
+
+#ifdef TEMP_STAT_LEDS
+      #define STAT_LED_RED      12 //Non-FastIO
+      #define STAT_LED_BLUE     10 //Non-FastIO
+#endif
+  
 #ifndef SDSUPPORT
 // these pins are defined in the SD library if building with SD support
   #define SCK_PIN           9
@@ -2449,7 +2485,7 @@ Fan_2 2
   #define KILL_PIN 80
   #ifdef NEWPANEL
    //arduino pin which triggers an piezzo beeper
-    #define BEEPER 79      // Beeper on AUX-4
+    
     #define LCD_PINS_RS 70
     #define LCD_PINS_ENABLE 71
     #define LCD_PINS_D4 72
@@ -2457,16 +2493,31 @@ Fan_2 2
     #define LCD_PINS_D6 74
     #define LCD_PINS_D7 75
 
+    #if defined(VIKI2) || defined(miniVIKI)
+        #define BEEPER 44
+        // Pins for DOGM SPI LCD Support
+        #define DOGLCD_A0  70 
+        #define DOGLCD_CS  71 
+        #define LCD_SCREEN_ROT_180
+        
+        //The encoder and click button 
+        #define BTN_EN1 85 
+        #define BTN_EN2 84
+        #define BTN_ENC 83  //the click switch
+     
+        #define SDCARDDETECT -1 // Pin 72 if using easy adapter board   
+     #else 
     //buttons are directly attached using AUX-2
-    #define BTN_EN1 76
-    #define BTN_EN2 77
-    #define BTN_ENC 78  //the click
-
+      #define BTN_EN1 76
+      #define BTN_EN2 77
+      #define BTN_ENC 78  //the click
+      #define SDCARDDETECT 81    // Ramps does not use this port
+      #define BEEPER 79      // Beeper on AUX-4
+    #endif
+    
     #define BLEN_C 2
     #define BLEN_B 1
     #define BLEN_A 0
-
-    #define SDCARDDETECT 81    // Ramps does not use this port
 
     //encoder rotation values
     #define encrot0 0
@@ -2508,6 +2559,11 @@ Fan_2 2
     #define BLEN_A 0
   #endif
 #endif //ULTRA_LCD
+
+  #ifdef TEMP_STAT_LEDS
+      #define STAT_LED_RED      22
+      #define STAT_LED_BLUE     32 
+  #endif
 
 #ifdef FILAMENT_SENSOR
   //Filip added pin for Filament sensor analog input 
